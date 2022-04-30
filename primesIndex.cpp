@@ -6,8 +6,8 @@
 #include <time.h>
 
 
-unsigned long long int n = 100000;
-const unsigned long long int sqrtn = sqrt(n) + 1;
+int n = 100000;
+unsigned int sqrtn = sqrt(n) + 1;
 unsigned int* rootPrimes;
 unsigned char* sieve;
 char* kernelCode;
@@ -50,10 +50,9 @@ void OpenCLsetup() {
 }
 
 
-void clSievePrimes(unsigned char* sieve) {
+void sieveGPU(unsigned char* sieve) {
     // create sieve
-    unsigned int i;
-    for (i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         sieve[i] = 1;
     }
 
@@ -112,7 +111,7 @@ int main() {
     sieve = (unsigned char*)malloc(sizeof(unsigned char) * n);
     double start, stop;
     start = omp_get_wtime();
-    clSievePrimes(sieve);
+    sieveGPU(sieve);
     stop = omp_get_wtime();
 
     // count primes
