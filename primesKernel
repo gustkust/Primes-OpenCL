@@ -1,0 +1,23 @@
+__kernel void sieveOfEratosthenes(
+    __global uint* primes, 
+    __global uchar* sieve,
+    __private ulong n
+)
+{
+    uint myID = get_global_id(0);
+    uint globalSize = get_global_size(0);
+
+    if (myID == 0) {
+        printf("%d\n", globalSize);
+    }
+
+    uint i, prime, j;
+
+    for (i = 0; i * i < n; i++) {
+        prime = primes[i];
+
+        for (j = myID * prime; j < n; j += globalSize * prime) {
+            sieve[j] = 0;
+        }   
+    }
+}
