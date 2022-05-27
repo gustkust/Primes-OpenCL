@@ -80,7 +80,8 @@ void sieveGPU(unsigned char* sieve) {
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
+    n = atol(argv[0]);
     OpenCLsetup();
     int primes = 0;
 
